@@ -1,9 +1,10 @@
 from app.database import create_tables
+from app.web import app
 
 
 def main():
     create_tables()
-    print("Database initialized successfully.")
+    app.run()
 
 
 if __name__ == "__main__":
