@@ -4,9 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/css/output.css" />
-    <title>Document</title>
+    <title>PingPong</title>
   </head>
   <body>
-    <h2 class="text-3xl font-bold underline">Hello World Medium</h2>
+    <div class="pl-1">
+      <h1 class="text-3xl font-bold">PingPong</h1>
+      <table class="table-auto border-collapse">
+        <thead>
+          <tr>
+            <th class="text-left p-1 border border-black">Name</th>
+            <th class="text-left p-1 border border-black">URL</th>
+            <th class="text-left p-1 border border-black">Is Active?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for endpoint in endpoints %}
+          <tr>
+            <td class="p-1 border border-black">{{ endpoint.name }}</td>
+            <td class="p-1 border border-black">
+              <a class="text-blue-600 underline" href="{{ endpoint.url }}">
+                {{ endpoint.url }}
+              </a>
+            </td>
+            {% if endpoint.is_active %}
+            <td class="p-1 text-green-700 border border-black">Active</td>
+            {% else %}
+            <td class="p-1 text-red-600 border border-black">Inactive</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>
