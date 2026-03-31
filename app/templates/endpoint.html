@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/output.css" />
+    <title>{{ endpoint.name }}</title>
+  </head>
+  <body>
+    <div class="pl-1 pr-1">
+      <h1 class="text-3xl font-bold">{{ endpoint.name }}</h1>
+      <a href="{{ endpoint.url }}">{{ endpoint.url }}</a>
+      <div class="flex items-center gap-2">
+        {% if endpoint.is_active %}
+        <span class="status-dot active"></span>
+        <span>Active</span>
+        {% else %}
+        <span class="status-dot inactive"></span>
+        <span>Active</span>
+        {% endif %}
+      </div>
+      <br />
+      <h2 class="text-2xl font-bold">Recent Checks</h2>
+      <table class="table-auto border-collapse">
+        <thead>
+          <tr>
+            <th>Checked At</th>
+            <th>Status Code</th>
+            <th>Response Time (ms)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for check in checks %}
+          <tr>
+            <td>{{ check.checked_at }}</td>
+            <td>{{ check.status_code }}</td>
+            <td>{{ check.response_time_ms }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

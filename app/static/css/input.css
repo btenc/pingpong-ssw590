@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+h1.header {
+  @apply text-3xl font-bold;
+}
+
+a {
+  @apply text-blue-600 underline;
+}
+
+th {
+  @apply text-left;
+}
+
+th,
+td {
+  @apply p-1 border border-black;
+}
+
+.active {
+  @apply bg-green-700;
+}
+
+.inactive {
+  @apply bg-red-600;
+}
+
+.status-dot {
+  @apply h-3 w-3 rounded-full;
+}

@@ -7,30 +7,38 @@
     <title>PingPong</title>
   </head>
   <body>
-    <div class="pl-1">
-      <h1 class="text-3xl font-bold">PingPong</h1>
+    <div class="pl-1 pr-1">
+      <h1 class="header">PingPong</h1>
       <table class="table-auto border-collapse">
         <thead>
           <tr>
-            <th class="text-left p-1 border border-black">Name</th>
-            <th class="text-left p-1 border border-black">URL</th>
-            <th class="text-left p-1 border border-black">Is Active?</th>
+            <th>Name</th>
+            <th>URL</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           {% for endpoint in endpoints %}
           <tr>
-            <td class="p-1 border border-black">{{ endpoint.name }}</td>
-            <td class="p-1 border border-black">
-              <a class="text-blue-600 underline" href="{{ endpoint.url }}">
-                {{ endpoint.url }}
-              </a>
+            <td>
+              <a href="/endpoint/{{ endpoint.id }}"> {{ endpoint.name }} </a>
             </td>
-            {% if endpoint.is_active %}
-            <td class="p-1 text-green-700 border border-black">Active</td>
-            {% else %}
-            <td class="p-1 text-red-600 border border-black">Inactive</td>
-            {% endif %}
+            <td>
+              <a href="{{ endpoint.url }}" target="_blank"
+                >{{ endpoint.url }}</a
+              >
+            </td>
+            <td>
+              <div class="flex items-center gap-2">
+                {% if endpoint.is_active %}
+                <span class="status-dot active"></span>
+                <span>Active</span>
+                {% else %}
+                <span class="status-dot inactive"></span>
+                <span>Active</span>
+                {% endif %}
+              </div>
+            </td>
           </tr>
           {% endfor %}
         </tbody>
