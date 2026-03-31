@@ -6,6 +6,8 @@
 3. `pip install -r requirements.txt`
 4. `pip install -r requirements-dev.txt`
 5. `python -m black .`
+6. `npm install`
+7. `npm run tailwind` (let Tailwind watch for styling changes)
 
 ## Use the CLI demo:
 1. `python3 -m venv .venv`
