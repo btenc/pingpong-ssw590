@@ -33,16 +33,40 @@ def create_tables():
 def add_endpoint(name, url):
     connection = get_connection()
 
-    connection.execute(
-        """
-        INSERT INTO endpoints (name, url)
-        VALUES (?, ?)
-        """,
-        (name, url),
-    )
+    if url is not None and name is not None:
+        row = connection.execute(
+            """
+            INSERT INTO endpoints (name, url)
+            VALUES (?, ?)
+            """,
+            (name, url),
+        )
+
+    elif url is None:
+        row = connection.execute(
+            """
+            INSERT INTO endpoints (url)
+            VALUES (?)
+            """,
+            (url),
+        )
+
+    else:
+        row = connection.execute(
+            """
+            INSERT INTO endpoints (name)
+            VALUES (?)
+            """,
+            (name),
+        )
 
     connection.commit()
+
+    endpoint_id = row.lastrowid
+
     connection.close()
+
+    return get_endpoint_by_id(endpoint_id)
 
 
 def get_all_endpoints():
@@ -168,22 +192,56 @@ def get_checks_for_endpoint(endpoint_id, limit=100):
 def update_endpoint(endpoint_id, name, url):
     connection = get_connection()
 
-    connection.execute(
-        """
-        UPDATE endpoints
-        SET name = ?, url = ?
-        WHERE id = ?
-        """,
-        (name, url, endpoint_id),
-    )
+    if name is not None and url is not None:
+        connection.execute(
+            """
+            UPDATE endpoints
+            SET name = ?, url = ?
+            WHERE id = ?
+            """,
+            (name, url, endpoint_id),
+        )
+
+    elif name is None:
+        connection.execute(
+            """
+            UPDATE endpoints
+            SET url = ?
+            WHERE id = ?
+            """,
+            (url, endpoint_id),
+        )
+
+    else:
+        connection.execute(
+            """
+            UPDATE endpoints
+            SET name = ?
+            WHERE id = ?
+            """,
+            (name, endpoint_id),
+        )
+
     connection.commit()
     connection.close()
+
+    updated_endpoint = get_endpoint_by_id(endpoint_id)
+    return updated_endpoint
 
 
 def delete_endpoint(endpoint_id):
     connection = get_connection()
+    cursor = connection.cursor()
 
-    connection.execute(
+    cursor.execute(
+        """
+        SELECT * FROM endpoints WHERE id = ?
+        """,
+        (endpoint_id,),
+    )
+    endpoint = cursor.fetchone()
+
+    cursor.execute(
         """
         DELETE FROM checks
         WHERE endpoint_id = ?
@@ -191,12 +249,18 @@ def delete_endpoint(endpoint_id):
         (endpoint_id,),
     )
 
-    connection.execute(
+    cursor.execute(
         """
         DELETE FROM endpoints
         WHERE id = ?
         """,
         (endpoint_id,),
     )
+
     connection.commit()
+
+    is_deleted = cursor.rowcount > 0
+
     connection.close()
+
+    return (is_deleted, endpoint)
