@@ -5,7 +5,7 @@ h1.header {
 }
 
 a {
-  @apply text-blue-600 underline;
+  @apply text-blue-600 dark:text-blue-500 underline;
 }
 
 th {
@@ -14,17 +14,26 @@ th {
 
 th,
 td {
-  @apply p-1 border border-black;
+  @apply p-1 border border-black dark:border-white;
 }
 
 .active {
-  @apply bg-green-700;
+  @apply bg-green-700 dark:bg-green-500;
 }
 
 .inactive {
-  @apply bg-red-600;
+  @apply bg-red-600 dark:bg-red-500;
 }
 
 .status-dot {
   @apply h-3 w-3 rounded-full;
+}
+
+h1,
+h2,
+th,
+td,
+span,
+p {
+  @apply text-black dark:text-white;
 }

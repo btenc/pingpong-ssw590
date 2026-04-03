@@ -7,10 +7,14 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-500: oklch(63.7% 0.237 25.331);
     --color-red-600: oklch(57.7% 0.245 27.325);
+    --color-green-500: oklch(72.3% 0.219 149.579);
     --color-green-700: oklch(52.7% 0.154 150.069);
+    --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-black: #000;
+    --color-white: #fff;
     --spacing: 0.25rem;
     --text-2xl: 1.5rem;
     --text-2xl--line-height: calc(2 / 1.5);
@@ -185,6 +189,9 @@
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
+  .bg-white {
+    background-color: var(--color-white);
+  }
   .pr-1 {
     padding-right: calc(var(--spacing) * 1);
   }
@@ -203,11 +210,10 @@
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
   }
-  .text-green-700 {
-    color: var(--color-green-700);
-  }
-  .text-red-600 {
-    color: var(--color-red-600);
+  .dark\:bg-black {
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-black);
+    }
   }
 }
 h1.header {
@@ -219,6 +225,9 @@ h1.header {
 a {
   color: var(--color-blue-600);
   text-decoration-line: underline;
+  @media (prefers-color-scheme: dark) {
+    color: var(--color-blue-500);
+  }
 }
 th {
   text-align: left;
@@ -228,17 +237,32 @@ th, td {
   border-width: 1px;
   border-color: var(--color-black);
   padding: calc(var(--spacing) * 1);
+  @media (prefers-color-scheme: dark) {
+    border-color: var(--color-white);
+  }
 }
 .active {
   background-color: var(--color-green-700);
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--color-green-500);
+  }
 }
 .inactive {
   background-color: var(--color-red-600);
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--color-red-500);
+  }
 }
 .status-dot {
   height: calc(var(--spacing) * 3);
   width: calc(var(--spacing) * 3);
   border-radius: calc(infinity * 1px);
+}
+h1, h2, th, td, span, p {
+  color: var(--color-black);
+  @media (prefers-color-scheme: dark) {
+    color: var(--color-white);
+  }
 }
 @property --tw-font-weight {
   syntax: "*";
