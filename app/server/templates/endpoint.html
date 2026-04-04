@@ -20,6 +20,8 @@
         {% endif %}
       </div>
       <br />
+      <h2 class="text-2xl font-bold">Status Codes</h2>
+      <div id="codes-chart"></div>
       <h2 class="text-2xl font-bold">Recent Checks</h2>
       <table class="table-auto border-collapse">
         <thead>
@@ -27,14 +29,16 @@
             <th>Checked At</th>
             <th>Status Code</th>
             <th>Response Time (ms)</th>
+            <th>Error Message</th>
           </tr>
         </thead>
         <tbody>
           {% for check in checks %}
           <tr>
             <td>{{ check.checked_at }}</td>
-            <td>{{ check.status_code }}</td>
-            <td>{{ check.response_time_ms }}</td>
+            <td>{% if check.status_code is none %}Unknown{% else %}{{ check.status_code }}{% endif %}</td>
+            <td>{% if check.response_time_ms is none %}Unknown{% else %}{{ check.response_time_ms }}{% endif %}</td>
+            <td>{% if check.error_message is none %}N/A{% else %}{{ check.error_message }}{% endif %}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -43,4 +47,9 @@
       <a href="/">Go Back</a>
     </div>
   </body>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script id="chart-data" type="application/json">
+    {{ code_data | tojson }}
+  </script>
+  <script src="../static/js/code-chart.js"></script>
 </html>
