@@ -79,6 +79,7 @@ def get_all_endpoints():
         """).fetchall()
 
     connection.close()
+
     return rows
 
 
@@ -264,3 +265,27 @@ def delete_endpoint(endpoint_id):
     connection.close()
 
     return (is_deleted, endpoint)
+
+
+def avg_check_response_time(endpoint_id):
+    connection = get_connection()
+
+    avg = connection.execute(
+        """
+        SELECT
+            AVG(c.response_time_ms) AS avg_response_time,
+            COUNT(c.id) AS total_checks,
+            SUM(CASE WHEN c.success = 0 THEN 1 ELSE 0 END) AS failed_checks
+        FROM checks c
+        JOIN endpoints e
+        ON c.endpoint_id = e.id
+        WHERE e.id = ?
+        GROUP BY e.id
+        """,
+        (endpoint_id,),
+    ).fetchone()
+
+    connection.commit()
+    connection.close()
+
+    return avg
