@@ -1,20 +1,7 @@
 @import "tailwindcss";
 
-h1.header {
-  @apply text-3xl font-bold;
-}
-
 a {
   @apply text-blue-600 dark:text-blue-500 underline;
-}
-
-th {
-  @apply text-left;
-}
-
-th,
-td {
-  @apply p-1 border border-black dark:border-white;
 }
 
 .active {
@@ -27,13 +14,4 @@ td {
 
 .status-dot {
   @apply h-3 w-3 rounded-full;
-}
-
-h1,
-h2,
-th,
-td,
-span,
-p {
-  @apply text-black dark:text-white;
 }

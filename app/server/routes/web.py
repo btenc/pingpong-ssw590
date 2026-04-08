@@ -16,6 +16,9 @@ def index():
 
     return render_template("index.html", endpoints=endpoints)
 
+@web_bp.route("/endpoint/add")
+def add_endpoint():
+    return render_template("add-endpoint.html")
 
 @web_bp.route("/endpoint/<id>")
 def endpoint_id(id):

@@ -33,15 +33,17 @@ const options = {
   dataLabels: {
     enabled: true,
     style: {
-      colors: [theme === "dark" ? "var(--color-black)" : "var(--color-white)"]
+      colors: [theme === "dark" ? "var(--color-black)" : "var(--color-white)"],
     },
     dropShadow: {
       enabled: true,
-      color: theme === "dark" ? "var(--color-white)" : "var(--color-black)"
-    }
+      color: theme === "dark" ? "var(--color-white)" : "var(--color-black)",
+    },
   },
   theme: { mode: theme },
-  stroke: { colors: [theme === "dark" ? "var(--color-white)" : "var(--color-black)" ] },
+  stroke: {
+    colors: [theme === "dark" ? "var(--color-white)" : "var(--color-black)"],
+  },
 };
 
 let chart = new ApexCharts(document.querySelector("#codes-chart"), options);
@@ -55,14 +57,21 @@ window
       {
         dataLabels: {
           style: {
-            colors: [theme === "dark" ? "var(--color-black)" : "var(--color-white)"]
+            colors: [
+              theme === "dark" ? "var(--color-black)" : "var(--color-white)",
+            ],
           },
           dropShadow: {
-            color: theme === "dark" ? "var(--color-white)" : "var(--color-black)"
-          }
+            color:
+              theme === "dark" ? "var(--color-white)" : "var(--color-black)",
+          },
         },
         theme: { mode: current },
-        stroke: { colors: [current === "dark" ? "var(--color-white)" : "var(--color-black)"] },
+        stroke: {
+          colors: [
+            current === "dark" ? "var(--color-white)" : "var(--color-black)",
+          ],
+        },
       },
       true,
     );

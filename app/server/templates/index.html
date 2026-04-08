@@ -7,35 +7,37 @@
     <title>PingPong</title>
   </head>
   <body class="bg-white dark:bg-black">
+    {% include "add-endpoint.html" %}
     <div class="pl-1 pr-1">
-      <h1 class="header">PingPong</h1>
+      <h1 class="text-3xl font-bold text-black dark:text-white">PingPong</h1>
+      <button class="text-black dark:text-white" command="show-modal" commandfor="add-dialog">Add Endpoint</button>
       <table class="table-auto border-collapse">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>URL</th>
-            <th>Status</th>
+            <th class="text-black dark:text-white p-1 border border-black dark:border-white text-left">Name</th>
+            <th class="text-black dark:text-white p-1 border border-black dark:border-white text-left">URL</th>
+            <th class="text-black dark:text-white p-1 border border-black dark:border-white text-left">Status</th>
           </tr>
         </thead>
         <tbody>
           {% for endpoint in endpoints %}
           <tr>
-            <td>
+            <td class="text-black dark:text-white p-1 border border-black dark:border-white">
               <a href="/endpoint/{{ endpoint.id }}"> {{ endpoint.name }} </a>
             </td>
-            <td>
+            <td class="text-black dark:text-white p-1 border border-black dark:border-white">
               <a href="{{ endpoint.url }}" target="_blank"
                 >{{ endpoint.url }}</a
               >
             </td>
-            <td>
+            <td class="p-1 border border-black dark:border-white">
               <div class="flex items-center gap-2">
                 {% if endpoint.is_active %}
                 <span class="status-dot active"></span>
-                <span>Active</span>
+                <span class="text-black dark:text-white">Active</span>
                 {% else %}
                 <span class="status-dot inactive"></span>
-                <span>Active</span>
+                <span class="text-black dark:text-white">Inactive</span>
                 {% endif %}
               </div>
             </td>
@@ -44,5 +46,7 @@
         </tbody>
       </table>
     </div>
+    <script src="../static/js/add-endpoint.js"></script>
+    <script src="../static/js/helpers.js"></script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 from flask import Flask, render_template
-from app.server.web import web_bp
-from app.server.api import api_bp
+from app.server.routes.web import web_bp
+from app.server.routes.api import api_bp
 
 app = Flask(__name__)
 

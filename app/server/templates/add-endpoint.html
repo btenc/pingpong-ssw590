@@ -1,0 +1,61 @@
+<dialog
+  id="add-dialog"
+  class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96"
+>
+  <div class="pl-1 pr-1">
+    <h1 class="text-3xl font-bold text-black dark:text-white">Add Endpoint</h1>
+    <form id="addEndpointForm" action="/api/endpoints" method="post">
+      <div>
+        <label
+          for="endpointName"
+          class="font-medium text-sm text-gray-800 dark:text-gray-200 block"
+        >
+          Endpoint Name
+        </label>
+        <div class="pb-3">
+          <input
+            id="endpointName"
+            type="text"
+            name="endpointName"
+            required
+            class="w-full bg-gray-400 text-black rounded-md px-1.5 py-1"
+          />
+        </div>
+      </div>
+      <div>
+        <label
+          for="endpointUrl"
+          class="font-medium text-sm text-gray-800 dark:text-gray-200 block"
+        >
+          Endpoint URL
+        </label>
+        <div class="pb-5">
+          <input
+            id="endpointUrl"
+            type="url"
+            name="endpointUrl"
+            required
+            class="w-full bg-gray-400 text-black rounded-md px-1.5 py-1"
+          />
+        </div>
+      </div>
+
+      <button
+        class="rounded-lg bg-white dark:bg-black text-green-700 dark:text-green-400 px-3"
+        type="submit"
+      >
+        Create
+      </button>
+
+      <button
+        id="cancelButton"
+        class="ml-2 rounded-lg bg-white dark:bg-black text-red-700 dark:text-red-500 px-3"
+        type="button"
+      >
+        Cancel
+      </button>
+
+      <p id="error" class="text-red-700 dark:text-red-500 font-bold pt-2"></p>
+    </form>
+  </div>
+</dialog>

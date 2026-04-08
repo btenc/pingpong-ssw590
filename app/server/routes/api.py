@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 import app.database as database
 from app.validation import validate_endpoint_id, validate_limit, validate_string
 import app.checker as checker
+import bleach
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -38,8 +39,8 @@ def get_endpoint(id):
 @api_bp.route("/endpoints", methods=["POST"])
 def add_endpoint():
     data = request.get_json()
-    name = data.get("name")
-    url = data.get("url")
+    name = data.get("endpointName")
+    url = data.get("endpointUrl")
 
     if name is None and url is None:
         return jsonify({"error": "Must provide a new name and/or url."}), 400
@@ -47,12 +48,16 @@ def add_endpoint():
     if name is not None:
         try:
             name = validate_string(name, "Endpoint Name")
+            name = bleach.clean(name)
+
         except Exception as e:
             return jsonify({"error": str(e)}), 400
 
     if url is not None:
         try:
             url = validate_string(url, "Endpoint URL")
+            url = bleach.clean(url)
+            
         except Exception as e:
             return jsonify({"error": str(e)}), 400
 
@@ -83,12 +88,16 @@ def patch_endpoint(id):
     if name is not None:
         try:
             name = validate_string(name, "Endpoint Name")
+            name = bleach.clean(name)
+
         except Exception as e:
             return jsonify({"error": str(e)}), 400
 
     if url is not None:
         try:
             url = validate_string(url, "Endpoint URL")
+            url = bleach.clean(url)
+
         except Exception as e:
             return jsonify({"error": str(e)}), 400
 
