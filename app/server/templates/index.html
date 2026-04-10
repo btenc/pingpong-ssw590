@@ -8,9 +8,12 @@
     <title>PingPong</title>
   </head>
   <body class="bg-white dark:bg-black">
-    {% include "add-endpoint.html" %} {% include "edit-endpoint.html" %} {% include "config-modal.html" %}
+    {% include "add-endpoint.html" %} {% include "edit-endpoint.html" %} {%
+    include "config-modal.html" %}
     <div class="p-4">
-      <h1 class="text-3xl font-bold text-black dark:text-white mb-3">PingPong</h1>
+      <h1 class="text-3xl font-bold text-black dark:text-white mb-3">
+        PingPong
+      </h1>
       <div class="mb-3 flex gap-2">
         <button
           class="border border-black dark:border-white text-black dark:text-white px-2 py-1 rounded"
@@ -25,50 +28,76 @@
           Settings
         </button>
       </div>
-      <table class="table-auto border-collapse">
-        <thead>
-          <tr>
-            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left">Name</th>
-            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left">URL</th>
-            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left">Status</th>
-            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left">Uptime</th>
-            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left">Last Checked</th>
-            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for endpoint in endpoints %}
-          <tr>
-            <td class="p-2 border border-black dark:border-white">
-              <a href="/endpoint/{{ endpoint.id }}">{{ endpoint.name }}</a>
-            </td>
-            <td class="p-2 border border-black dark:border-white">
-              <a href="{{ endpoint.url }}" target="_blank">{{ endpoint.url }}</a>
-            </td>
-            <td class="p-2 border border-black dark:border-white">
-              <div class="flex items-center gap-2">
-                {% if endpoint.is_active %}
-                <span class="status-dot active"></span>
-                <span class="text-black dark:text-white">Active</span>
-                {% else %}
-                <span class="status-dot inactive"></span>
-                <span class="text-black dark:text-white">Inactive</span>
-                {% endif %}
-              </div>
-            </td>
-            <td class="text-black dark:text-white p-2 border border-black dark:border-white">
-              {% if endpoint.uptime_pct is none %}-{% else %}{{ endpoint.uptime_pct }}%{% endif %}
-            </td>
-            <td class="text-black dark:text-white p-2 border border-black dark:border-white">
-              {% if endpoint.last_checked is none %}Never{% else %}{{ endpoint.last_checked }}{% endif %}
-            </td>
-            <td class="p-2 border border-black dark:border-white">
-              {% include "options-dropdown.html" %}
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div class="inline-block rounded-lg border border-black dark:border-white">
+        <table class="table-auto border-collapse">
+          <thead>
+            <tr>
+              <th class="text-black dark:text-white p-2 text-left">Name</th>
+              <th
+                class="text-black dark:text-white p-2 text-left border-l border-black dark:border-white"
+              >
+                URL
+              </th>
+              <th
+                class="text-black dark:text-white p-2 text-left border-l border-black dark:border-white"
+              >
+                Status
+              </th>
+              <th
+                class="text-black dark:text-white p-2 text-left border-l border-black dark:border-white"
+              >
+                Uptime
+              </th>
+              <th
+                class="text-black dark:text-white p-2 text-left border-l border-black dark:border-white"
+              >
+                Last Checked
+              </th>
+              <th class="border-l border-black dark:border-white"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for endpoint in endpoints %}
+            <tr class="border-t border-black dark:border-white">
+              <td class="p-2">
+                <a href="/endpoint/{{ endpoint.id }}">{{ endpoint.name }}</a>
+              </td>
+              <td class="p-2 border-l border-black dark:border-white">
+                <a href="{{ endpoint.url }}" target="_blank"
+                  >{{ endpoint.url }}</a
+                >
+              </td>
+              <td class="p-2 border-l border-black dark:border-white">
+                <div class="flex items-center gap-2">
+                  {% if endpoint.is_active %}
+                  <span class="status-dot active"></span>
+                  <span class="text-black dark:text-white">Active</span>
+                  {% else %}
+                  <span class="status-dot inactive"></span>
+                  <span class="text-black dark:text-white">Inactive</span>
+                  {% endif %}
+                </div>
+              </td>
+              <td
+                class="text-black dark:text-white p-2 border-l border-black dark:border-white"
+              >
+                {% if endpoint.uptime_pct is none %}-{% else %}{{
+                endpoint.uptime_pct }}%{% endif %}
+              </td>
+              <td
+                class="text-black dark:text-white p-2 border-l border-black dark:border-white"
+              >
+                {% if endpoint.last_checked is none %}Never{% else %}{{
+                endpoint.last_checked }}{% endif %}
+              </td>
+              <td class="p-2 border-l border-black dark:border-white">
+                {% include "options-dropdown.html" %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
     <script src="../static/js/helpers.js"></script>
     <script src="../static/js/add-endpoint.js"></script>
