@@ -7,7 +7,7 @@ import bleach
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
 
-# GET /endpoints
+# GET /api/endpoints
 @api_bp.route("/endpoints")
 def get_all_endpoints():
     try:
@@ -19,7 +19,7 @@ def get_all_endpoints():
         return jsonify({"error": str(e)}), 500
 
 
-# GET /endpoints/{id}
+# GET /api/endpoints/{id}
 @api_bp.route("/endpoints/<id>")
 def get_endpoint(id):
     try:
@@ -35,7 +35,7 @@ def get_endpoint(id):
         return jsonify({"error": str(e)}), 500
 
 
-# POST /endpoints
+# POST /api/endpoints
 @api_bp.route("/endpoints", methods=["POST"])
 def add_endpoint():
     data = request.get_json()
@@ -57,7 +57,7 @@ def add_endpoint():
         try:
             url = validate_string(url, "Endpoint URL")
             url = bleach.clean(url)
-            
+
         except Exception as e:
             return jsonify({"error": str(e)}), 400
 
@@ -69,7 +69,7 @@ def add_endpoint():
         return jsonify({"error": str(e)}), 500
 
 
-# PATCH /endpoints/{id}
+# PATCH /api/endpoints/{id}
 @api_bp.route("/endpoints/<id>", methods=["PATCH"])
 def patch_endpoint(id):
     try:
@@ -79,8 +79,8 @@ def patch_endpoint(id):
         return jsonify({"error": str(e)}), 400
 
     data = request.get_json()
-    name = data.get("name")
-    url = data.get("url")
+    name = data.get("endpointName")
+    url = data.get("endpointUrl")
 
     if name is None and url is None:
         return jsonify({"error": "Must provide a new name and/or url."}), 400
@@ -109,7 +109,7 @@ def patch_endpoint(id):
         return jsonify({"error": str(e)}), 500
 
 
-# DELETE /endpoints/{id}
+# DELETE /api/endpoints/{id}
 @api_bp.route("/endpoints/<id>", methods=["DELETE"])
 def delete_endpoint(id):
     try:
@@ -126,7 +126,7 @@ def delete_endpoint(id):
         return jsonify({"error": str(e)}), 500
 
 
-# GET /checks?limit=20
+# GET /api/checks?limit=20
 @api_bp.route("/checks")
 def get_checks():
     limit = request.args.get("limit")
@@ -149,7 +149,7 @@ def get_checks():
         return jsonify({"error": str(e)}), 500
 
 
-# GET /endpoints/checks
+# GET /api/endpoints/checks
 @api_bp.route("/endpoints/checks")
 def get_endpoint_checks():
     try:
@@ -160,7 +160,7 @@ def get_endpoint_checks():
         return jsonify({"error": str(e)}), 500
 
 
-# GET /endpoints/active
+# GET /api/endpoints/active
 @api_bp.route("/endpoints/active")
 def get_active_endpoints():
     try:

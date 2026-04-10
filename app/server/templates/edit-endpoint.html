@@ -1,22 +1,23 @@
 <dialog
-  id="add-dialog"
+  id="edit-dialog"
   class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96"
 >
   <div class="pl-1 pr-1">
-    <h1 class="text-3xl font-bold text-black dark:text-white">Add Endpoint</h1>
-    <form id="addEndpointForm" action="/api/endpoints" method="post">
+    <h1 class="text-3xl font-bold text-black dark:text-white">Edit Endpoint</h1>
+    <form id="editEndpointForm" action="/api/endpoints" method="post">
       <div>
+        <input type="hidden" id="editEndpointId" name="editEndpointId" />
         <label
-          for="addEndpointName"
+          for="editEndpointName"
           class="font-medium text-sm text-gray-800 dark:text-gray-200 block"
         >
           Endpoint Name
         </label>
         <div class="pb-3">
           <input
-            id="addEndpointName"
+            id="editEndpointName"
             type="text"
-            name="addEndpointName"
+            name="editEndpointName"
             required
             class="w-full bg-gray-400 text-black rounded-md px-1.5 py-1"
           />
@@ -24,16 +25,16 @@
       </div>
       <div>
         <label
-          for="addEndpointUrl"
+          for="editEndpointUrl"
           class="font-medium text-sm text-gray-800 dark:text-gray-200 block"
         >
           Endpoint URL
         </label>
         <div class="pb-5">
           <input
-            id="addEndpointUrl"
+            id="editEndpointUrl"
             type="url"
-            name="addEndpointUrl"
+            name="editEndpointUrl"
             required
             class="w-full bg-gray-400 text-black rounded-md px-1.5 py-1"
           />
@@ -41,21 +42,24 @@
       </div>
 
       <button
-        class="rounded-lg bg-white dark:bg-black text-green-700 dark:text-green-400 px-3"
-        type="submit"
-      >
-        Create
-      </button>
-
-      <button
-        id="addCancelButton"
-        class="ml-2 rounded-lg bg-white dark:bg-black text-red-700 dark:text-red-500 px-3"
+        id="editCancelButton"
+        class="rounded-lg bg-white dark:bg-black text-red-700 dark:text-red-500 px-3"
         type="button"
       >
         Cancel
       </button>
 
-      <p id="addError" class="text-red-700 dark:text-red-500 font-bold pt-2"></p>
+      <button
+        class="ml-2 rounded-lg bg-white dark:bg-black text-green-700 dark:text-green-400 px-3"
+        type="submit"
+      >
+        Submit
+      </button>
+
+      <p
+        id="editError"
+        class="text-red-700 dark:text-red-500 font-bold pt-2"
+      ></p>
     </form>
   </div>
 </dialog>

@@ -1,0 +1,22 @@
+<div class="dropdown relative inline-block">
+  <button
+    class="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none"
+    onclick="toggleDropdown(this)"
+    aria-haspopup="menu"
+    aria-expanded="false"
+  >
+    Actions ▼
+  </button>
+  <div
+    class="dropdown-menu hidden absolute right-0 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded shadow-lg z-10"
+    role="menu"
+  >
+    <button
+      class="dropdown-item w-full text-left px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+      onclick="showEditModal({{ endpoint.id }}); toggleDropdown(this.parentElement)"
+      role="menuitem"
+    >
+      Edit
+    </button>
+  </div>
+</div>

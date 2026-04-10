@@ -1,32 +1,33 @@
-const error = document.getElementById("error");
-error.style.display = "none";
+// Error Elements
+const addError = document.getElementById("addError");
+if (addError) addError.style.display = "none";
 
-const cancelButton = document.getElementById("cancelButton");
+// Cancel Buttons
+const addCancelButton = document.getElementById("addCancelButton");
 
-if (cancelButton) {
-  cancelButton.addEventListener("click", () => {
+if (addCancelButton) {
+  addCancelButton.addEventListener("click", () => {
     const dialog = document.getElementById("add-dialog");
-    if (dialog) {
-      dialog.close();
-    }
+    if (dialog) dialog.close();
   });
 }
 
-const form = document.getElementById("addEndpointForm");
-const endpointName = document.getElementById("endpointName");
-const endpointUrl = document.getElementById("endpointUrl");
+// Form
+const addForm = document.getElementById("addEndpointForm");
+const addEndpointName = document.getElementById("addEndpointName");
+const addEndpointUrl = document.getElementById("addEndpointUrl");
 
-if (form) {
-  form.addEventListener("submit", async (e) => {
+if (addForm) {
+  addForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     try {
-      endpointName.value = validateString(endpointName.value, "Endpoint Name");
-      endpointUrl.value = validateString(endpointUrl.value, "Endpoint URL");
+      addEndpointName.value = validateString(addEndpointName.value, "Endpoint Name");
+      addEndpointUrl.value = validateString(addEndpointUrl.value, "Endpoint URL");
 
       const endpointData = {
-        endpointName: endpointName.value,
-        endpointUrl: endpointUrl.value,
+        endpointName: addEndpointName.value,
+        endpointUrl: addEndpointUrl.value,
       };
 
       await fetchData("http://127.0.0.1:5000/api/endpoints", {
@@ -38,10 +39,9 @@ if (form) {
       });
 
       window.location.href = "/";
-
     } catch (err) {
-      error.style.display = "block";
-      error.textContent = err;
+      addError.style.display = "block";
+      addError.textContent = err;
     }
   });
 }

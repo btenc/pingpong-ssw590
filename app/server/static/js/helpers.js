@@ -1,16 +1,42 @@
 function validateString(obj, objName) {
   if (typeof obj === "undefined")
-    throw `${objName || "Provided parameter"} was not supplied.`;
+    throw new Error(`${objName || "Provided parameter"} was not supplied.`);
 
-  if (!obj) throw `${objName || "Provided parameter"} was not supplied.`;
+  if (!obj)
+    throw new Error(`${objName || "Provided parameter"} was not supplied.`);
 
   if (typeof obj !== "string")
-    throw `${objName || "Provided data"} is not a string'.`;
+    throw new Error(`${objName || "Provided data"} is not a string'.`);
 
   if (obj.trim().length === 0)
-    throw `${objName || "Provided string"} consists of only spaces.`;
+    throw new Error(`${objName || "Provided string"} consists of only spaces.`);
 
   return obj.trim();
+}
+
+function validateNumber(num, numName) {
+  if (typeof num === "undefined")
+    throw new Error(`${numName || "Provided parameter"} was not supplied.`);
+
+  if (typeof num !== "number")
+    throw new Error(
+      `${
+        numName || "Provided data"
+      } is not of type 'number', but of type '${typeof num}'.`,
+    );
+
+  if (isNaN(num)) throw new Error(`${numName || "Provided number"} is NaN.`);
+
+  return num;
+}
+
+function validateEndpointId(id, idName) {
+  num = validateNumber(id, idName);
+
+  if (num < 1)
+    throw new Error(`${idName || "Provided number"} is not a valid id.`);
+
+  return num;
 }
 
 async function fetchData(url, options) {
@@ -19,8 +45,7 @@ async function fetchData(url, options) {
 
   if (response.ok) {
     return json;
-  
   } else {
-    throw `${response.statusText}: ${json["error"]}`;
+    throw new Error(`${response.statusText}: ${json["error"]}`);
   }
 }

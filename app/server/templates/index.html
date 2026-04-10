@@ -7,25 +7,50 @@
     <title>PingPong</title>
   </head>
   <body class="bg-white dark:bg-black">
-    {% include "add-endpoint.html" %}
+    {% include "add-endpoint.html" %} {% include "edit-endpoint.html" %}
     <div class="pl-1 pr-1">
       <h1 class="text-3xl font-bold text-black dark:text-white">PingPong</h1>
-      <button class="text-black dark:text-white" command="show-modal" commandfor="add-dialog">Add Endpoint</button>
+      <button
+        class="text-black dark:text-white"
+        command="show-modal"
+        commandfor="add-dialog"
+      >
+        Add Endpoint
+      </button>
       <table class="table-auto border-collapse">
         <thead>
           <tr>
-            <th class="text-black dark:text-white p-1 border border-black dark:border-white text-left">Name</th>
-            <th class="text-black dark:text-white p-1 border border-black dark:border-white text-left">URL</th>
-            <th class="text-black dark:text-white p-1 border border-black dark:border-white text-left">Status</th>
+            <th
+              class="text-black dark:text-white border border-black dark:border-white p-1 text-left"
+            >
+              Name
+            </th>
+            <th
+              class="text-black dark:text-white border border-black dark:border-white p-1 text-left"
+            >
+              URL
+            </th>
+            <th
+              class="text-black dark:text-white border border-black dark:border-white p-1 text-left"
+            >
+              Status
+            </th>
+            <th
+              class="text-black dark:text-white border border-black dark:border-white p-1 text-left"
+            ></th>
           </tr>
         </thead>
         <tbody>
           {% for endpoint in endpoints %}
-          <tr>
-            <td class="text-black dark:text-white p-1 border border-black dark:border-white">
+          <tr endpoint-id="{{ endpoint.id }}">
+            <td
+              class="text-black dark:text-white p-1 border border-black dark:border-white"
+            >
               <a href="/endpoint/{{ endpoint.id }}"> {{ endpoint.name }} </a>
             </td>
-            <td class="text-black dark:text-white p-1 border border-black dark:border-white">
+            <td
+              class="text-black dark:text-white p-1 border border-black dark:border-white"
+            >
               <a href="{{ endpoint.url }}" target="_blank"
                 >{{ endpoint.url }}</a
               >
@@ -41,12 +66,17 @@
                 {% endif %}
               </div>
             </td>
+            <td class="p-1 border border-black dark:border-white">
+              {% include "options-dropdown.html" %}
+            </td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
     <script src="../static/js/add-endpoint.js"></script>
+    <script src="../static/js/edit-endpoint.js"></script>
     <script src="../static/js/helpers.js"></script>
+    <script src="../static/js/options-dropdown.js"></script>
   </body>
 </html>
