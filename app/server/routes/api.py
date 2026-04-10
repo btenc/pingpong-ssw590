@@ -42,8 +42,8 @@ def add_endpoint():
     name = data.get("endpointName")
     url = data.get("endpointUrl")
 
-    if name is None and url is None:
-        return jsonify({"error": "Must provide a new name and/or url."}), 400
+    if name is None or url is None:
+        return jsonify({"error": "Must provide both a name and a url."}), 400
 
     if name is not None:
         try:
@@ -81,9 +81,10 @@ def patch_endpoint(id):
     data = request.get_json()
     name = data.get("endpointName")
     url = data.get("endpointUrl")
+    is_active = data.get("isActive")
 
-    if name is None and url is None:
-        return jsonify({"error": "Must provide a new name and/or url."}), 400
+    if name is None and url is None and is_active is None:
+        return jsonify({"error": "Must provide a new name, url, and/or isActive."}), 400
 
     if name is not None:
         try:
@@ -101,8 +102,13 @@ def patch_endpoint(id):
         except Exception as e:
             return jsonify({"error": str(e)}), 400
 
+    if is_active is not None:
+        if not isinstance(is_active, bool):
+            return jsonify({"error": "isActive must be a boolean."}), 400
+        is_active = 1 if is_active else 0
+
     try:
-        patched_endpoint = dict(database.update_endpoint(id, name, url))
+        patched_endpoint = dict(database.update_endpoint(id, name, url, is_active))
         return jsonify(patched_endpoint)
 
     except Exception as e:
@@ -160,13 +166,58 @@ def get_endpoint_checks():
         return jsonify({"error": str(e)}), 500
 
 
-# GET /api/endpoints/active
-@api_bp.route("/endpoints/active")
-def get_active_endpoints():
+# POST /api/endpoints/<id>/check
+@api_bp.route("/endpoints/<int:id>/check", methods=["POST"])
+def check_one(id):
     try:
-        endpoints = database.get_active_endpoints()
-        endpoints = [dict(endpoint) for endpoint in endpoints]
-        return jsonify(endpoints)
+        endpoint = database.get_endpoint_by_id(id)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    if endpoint is None:
+        return jsonify({"error": "Endpoint not found."}), 404
+
+    try:
+        result = checker.check_one_endpoint(endpoint)
+        return jsonify(result)
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# GET /api/config
+@api_bp.route("/config")
+def get_config():
+    try:
+        config = database.get_config()
+        return jsonify(dict(config))
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# PATCH /api/config
+@api_bp.route("/config", methods=["PATCH"])
+def update_config():
+    data = request.get_json()
+    check_interval_seconds = data.get("checkIntervalSeconds")
+
+    if check_interval_seconds is None:
+        return jsonify({"error": "Must provide checkIntervalSeconds."}), 400
+
+    try:
+        check_interval_seconds = int(check_interval_seconds)
+        if check_interval_seconds < 1:
+            raise ValueError()
+    except (ValueError, TypeError):
+        return (
+            jsonify({"error": "checkIntervalSeconds must be a positive integer."}),
+            400,
+        )
+
+    try:
+        updated_config = database.update_config(check_interval_seconds)
+        return jsonify(dict(updated_config))
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

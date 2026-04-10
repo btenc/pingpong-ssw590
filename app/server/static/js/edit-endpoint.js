@@ -19,19 +19,19 @@ const form = document.getElementById("editEndpointForm");
 const editEndpointId = document.getElementById("editEndpointId");
 const endpointName = document.getElementById("editEndpointName");
 const endpointUrl = document.getElementById("editEndpointUrl");
+const endpointActive = document.getElementById("editEndpointActive");
 
 async function showEditModal(id) {
   try {
-    const endpoint = await fetchData(
-      `http://127.0.0.1:5000/api/endpoints/${id}`,
-    );
+    const endpoint = await fetchData(`/api/endpoints/${id}`);
 
     currentEditId = id;
-    id = validateEndpointId(id, "Endpoint Id");
 
     if (endpoint.name) endpointName.value = endpoint.name;
     if (endpoint.url) endpointUrl.value = endpoint.url;
+    endpointActive.checked = endpoint.is_active === 1;
 
+    error.style.display = "none";
     if (dialog) dialog.showModal();
   } catch (err) {
     error.style.display = "block";
@@ -52,10 +52,7 @@ if (form) {
       let endpointData = {};
 
       if (endpointName.value) {
-        endpointName.value = validateString(
-          endpointName.value,
-          "Endpoint Name",
-        );
+        endpointName.value = validateString(endpointName.value, "Endpoint Name");
         endpointData["endpointName"] = endpointName.value;
       }
 
@@ -64,7 +61,9 @@ if (form) {
         endpointData["endpointUrl"] = endpointUrl.value;
       }
 
-      await fetchData(`http://127.0.0.1:5000/api/endpoints/${endpoint_id}`, {
+      endpointData["isActive"] = endpointActive.checked;
+
+      await fetchData(`/api/endpoints/${endpoint_id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

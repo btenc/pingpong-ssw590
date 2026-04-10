@@ -1,0 +1,45 @@
+<dialog
+  id="config-dialog"
+  class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96"
+>
+  <div>
+    <h1 class="text-3xl font-bold text-black dark:text-white mb-3">Settings</h1>
+    <form id="configForm">
+      <div class="pb-5">
+        <label
+          for="configInterval"
+          class="font-medium text-sm text-gray-800 dark:text-gray-200 block"
+        >
+          Check Interval (seconds)
+        </label>
+        <input
+          id="configInterval"
+          type="number"
+          min="1"
+          required
+          class="w-full bg-white dark:bg-gray-700 text-black dark:text-white border border-gray-300 dark:border-gray-500 rounded-md px-1.5 py-1"
+        />
+      </div>
+
+      <button
+        class="border border-black dark:border-white text-black dark:text-white px-2 py-1 rounded"
+        type="submit"
+      >
+        Save
+      </button>
+
+      <button
+        id="configCancelButton"
+        class="border border-black dark:border-white text-black dark:text-white px-2 py-1 rounded ml-2"
+        type="button"
+      >
+        Cancel
+      </button>
+
+      <p
+        id="configError"
+        class="text-red-700 dark:text-red-500 font-bold pt-2"
+      ></p>
+    </form>
+  </div>
+</dialog>

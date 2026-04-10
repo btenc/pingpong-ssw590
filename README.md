@@ -1,46 +1,45 @@
-# Ping Pong
+# PingPong
 
-## Formatting / Development
+A simple endpoint monitoring tool. Add URLs and PingPong will automatically ping them on a set interval, tracking uptime and response times.
+
+## Stack
+- Python / Flask - web server and API
+- SQLite - database
+- Tailwind CSS - styling
+- ApexCharts - status code pie chart
+- requests - HTTP checks
+- threading / time - background scheduler
+- zoneinfo - timezone conversion
+- python-dateutil - timestamp parsing
+- bleach - input sanitization
+- black - formatting standard
+
+## Running
 1. `python3 -m venv .venv`
 2. `source .venv/bin/activate`
 3. `pip install -r requirements.txt`
-4. `pip install -r requirements-dev.txt`
-5. `python -m black .`
-6. `npm install`
-7. `npm run tailwind` (let Tailwind watch for styling changes)
+4. `python run.py`
 
-## Use the CLI demo:
-1. `python3 -m venv .venv`
-2. `source .venv/bin/activate`
-3. `pip install -r requirements.txt`
-4. `python init_db.py` (create ./db/pingpong.db if not exists)
-5. `python run_cli.py`
+The database is created automatically and saved to `./db/pingpong.db` on first run. Server runs at http://127.0.0.1:5000.
 
-## GUI / API
+## GUI
+- `/` - dashboard, all endpoints
+- `/endpoint/<id>` - endpoint detail, checks history
 
-### Start the Server
-1. `python3 -m venv .venv`
-2. `source .venv/bin/activate`
-3. `pip install -r requirements.txt`
-4. `python init_db.py` (create ./db/pingpong.db if not exists)
-5. `python run_gui.py`
+## API
+- `GET /api/endpoints` - get all endpoints
+- `POST /api/endpoints` - create endpoint
+- `GET /api/endpoints/<id>` - get one endpoint
+- `PATCH /api/endpoints/<id>` - update endpoint (name, url, active)
+- `DELETE /api/endpoints/<id>` - delete endpoint and its checks
+- `POST /api/endpoints/<id>/check` - run a check for one endpoint
+- `GET /api/endpoints/checks` - manually trigger a check run for all endpoints
+- `GET /api/checks?limit=N` - get N most recent checks
+- `GET /api/config` - get config
+- `PATCH /api/config` - update check interval
 
-### GUI Endpoints:
-* `/`: Main dashboard
-* `/endpoints/{id}`: More detailed endpoint info
-
-### API Endpoints:
-* `GET /api/endpoints`: Get all endpoints
-* `POST /api/endpoints`: Create a new endpoint
-* `GET /api/endpoints/{id}`: Get specified endpoint
-* `PATCH /api/endpoints/{id}`: Update an existing endpoint
-* `DELETE /api/endpoints/{id}`: Delete the specified endpoint
-* `GET /api/endpoints/active`: Get all active endpoints
-* `GET /api/endpoints/checks`: Get the result of checking all active endpoints
-* `GET /api/checks?limit=N`: Get the N most recent endpoint checks
-
-## What is does not do yet:
-- No CI/CD
-- Prettiying the GUI
-- No running checks on schedule
-- No data aggregation
+## Development
+1. `pip install -r requirements-dev.txt`
+2. `npm install`
+3. `npm run tailwind` (watch and recompile CSS)
+4. `python -m black .` to format

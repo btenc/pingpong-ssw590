@@ -2,9 +2,9 @@
   id="edit-dialog"
   class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96"
 >
-  <div class="pl-1 pr-1">
-    <h1 class="text-3xl font-bold text-black dark:text-white">Edit Endpoint</h1>
-    <form id="editEndpointForm" action="/api/endpoints" method="post">
+  <div>
+    <h1 class="text-3xl font-bold text-black dark:text-white mb-3">Edit Endpoint</h1>
+    <form id="editEndpointForm">
       <div>
         <input type="hidden" id="editEndpointId" name="editEndpointId" />
         <label
@@ -19,7 +19,7 @@
             type="text"
             name="editEndpointName"
             required
-            class="w-full bg-gray-400 text-black rounded-md px-1.5 py-1"
+            class="w-full bg-white dark:bg-gray-700 text-black dark:text-white border border-gray-300 dark:border-gray-500 rounded-md px-1.5 py-1"
           />
         </div>
       </div>
@@ -36,24 +36,35 @@
             type="url"
             name="editEndpointUrl"
             required
-            class="w-full bg-gray-400 text-black rounded-md px-1.5 py-1"
+            class="w-full bg-white dark:bg-gray-700 text-black dark:text-white border border-gray-300 dark:border-gray-500 rounded-md px-1.5 py-1"
           />
         </div>
       </div>
 
+      <div class="pb-3">
+        <label class="font-medium text-sm text-gray-800 dark:text-gray-200 block">
+          Active
+        </label>
+        <input
+          id="editEndpointActive"
+          type="checkbox"
+          class="mt-1"
+        />
+      </div>
+
       <button
-        id="editCancelButton"
-        class="rounded-lg bg-white dark:bg-black text-red-700 dark:text-red-500 px-3"
-        type="button"
+        class="border border-black dark:border-white text-black dark:text-white px-2 py-1 rounded"
+        type="submit"
       >
-        Cancel
+        Save
       </button>
 
       <button
-        class="ml-2 rounded-lg bg-white dark:bg-black text-green-700 dark:text-green-400 px-3"
-        type="submit"
+        id="editCancelButton"
+        class="border border-black dark:border-white text-black dark:text-white px-2 py-1 rounded ml-2"
+        type="button"
       >
-        Submit
+        Cancel
       </button>
 
       <p

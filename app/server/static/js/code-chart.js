@@ -9,6 +9,10 @@ const pieData = JSON.parse(document.getElementById("chart-data").textContent);
 const labels = Object.keys(pieData);
 const series = Object.values(pieData);
 
+if (series.length === 0) {
+  document.querySelector("#codes-chart").textContent = "No checks yet.";
+} else {
+
 theme = getCurrentTheme();
 
 const options = {
@@ -76,3 +80,4 @@ window
       true,
     );
   });
+}

@@ -3,59 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="60" />
     <link rel="stylesheet" href="../static/css/output.css" />
     <title>PingPong</title>
   </head>
   <body class="bg-white dark:bg-black">
-    {% include "add-endpoint.html" %} {% include "edit-endpoint.html" %}
-    <div class="pl-1 pr-1">
-      <h1 class="text-3xl font-bold text-black dark:text-white">PingPong</h1>
-      <button
-        class="text-black dark:text-white"
-        command="show-modal"
-        commandfor="add-dialog"
-      >
-        Add Endpoint
-      </button>
+    {% include "add-endpoint.html" %} {% include "edit-endpoint.html" %} {% include "config-modal.html" %}
+    <div class="p-4">
+      <h1 class="text-3xl font-bold text-black dark:text-white mb-3">PingPong</h1>
+      <div class="mb-3 flex gap-2">
+        <button
+          class="border border-black dark:border-white text-black dark:text-white px-2 py-1 rounded"
+          onclick="document.getElementById('add-dialog').showModal()"
+        >
+          Add Endpoint
+        </button>
+        <button
+          class="border border-black dark:border-white text-black dark:text-white px-2 py-1 rounded"
+          onclick="showConfigModal()"
+        >
+          Settings
+        </button>
+      </div>
       <table class="table-auto border-collapse">
         <thead>
           <tr>
-            <th
-              class="text-black dark:text-white border border-black dark:border-white p-1 text-left"
-            >
-              Name
-            </th>
-            <th
-              class="text-black dark:text-white border border-black dark:border-white p-1 text-left"
-            >
-              URL
-            </th>
-            <th
-              class="text-black dark:text-white border border-black dark:border-white p-1 text-left"
-            >
-              Status
-            </th>
-            <th
-              class="text-black dark:text-white border border-black dark:border-white p-1 text-left"
-            ></th>
+            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left">Name</th>
+            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left">URL</th>
+            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left">Status</th>
+            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left">Uptime</th>
+            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left">Last Checked</th>
+            <th class="text-black dark:text-white border border-black dark:border-white p-2 text-left"></th>
           </tr>
         </thead>
         <tbody>
           {% for endpoint in endpoints %}
-          <tr endpoint-id="{{ endpoint.id }}">
-            <td
-              class="text-black dark:text-white p-1 border border-black dark:border-white"
-            >
-              <a href="/endpoint/{{ endpoint.id }}"> {{ endpoint.name }} </a>
+          <tr>
+            <td class="p-2 border border-black dark:border-white">
+              <a href="/endpoint/{{ endpoint.id }}">{{ endpoint.name }}</a>
             </td>
-            <td
-              class="text-black dark:text-white p-1 border border-black dark:border-white"
-            >
-              <a href="{{ endpoint.url }}" target="_blank"
-                >{{ endpoint.url }}</a
-              >
+            <td class="p-2 border border-black dark:border-white">
+              <a href="{{ endpoint.url }}" target="_blank">{{ endpoint.url }}</a>
             </td>
-            <td class="p-1 border border-black dark:border-white">
+            <td class="p-2 border border-black dark:border-white">
               <div class="flex items-center gap-2">
                 {% if endpoint.is_active %}
                 <span class="status-dot active"></span>
@@ -66,7 +56,13 @@
                 {% endif %}
               </div>
             </td>
-            <td class="p-1 border border-black dark:border-white">
+            <td class="text-black dark:text-white p-2 border border-black dark:border-white">
+              {% if endpoint.uptime_pct is none %}-{% else %}{{ endpoint.uptime_pct }}%{% endif %}
+            </td>
+            <td class="text-black dark:text-white p-2 border border-black dark:border-white">
+              {% if endpoint.last_checked is none %}Never{% else %}{{ endpoint.last_checked }}{% endif %}
+            </td>
+            <td class="p-2 border border-black dark:border-white">
               {% include "options-dropdown.html" %}
             </td>
           </tr>
@@ -74,9 +70,11 @@
         </tbody>
       </table>
     </div>
+    <script src="../static/js/helpers.js"></script>
     <script src="../static/js/add-endpoint.js"></script>
     <script src="../static/js/edit-endpoint.js"></script>
-    <script src="../static/js/helpers.js"></script>
+    <script src="../static/js/delete-endpoint.js"></script>
+    <script src="../static/js/config-modal.js"></script>
     <script src="../static/js/options-dropdown.js"></script>
   </body>
 </html>

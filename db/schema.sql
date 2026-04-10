@@ -13,5 +13,13 @@ CREATE TABLE IF NOT EXISTS checks (
     response_time_ms REAL,
     success INTEGER NOT NULL,
     error_message TEXT,
-    FOREIGN KEY(endpoint_id) REFERENCES endpoints(id)
+    FOREIGN KEY(endpoint_id) REFERENCES endpoints(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS config (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    check_interval_seconds INTEGER NOT NULL DEFAULT 60
+);
+
+INSERT OR IGNORE INTO config (id, check_interval_seconds)
+VALUES (1, 60);

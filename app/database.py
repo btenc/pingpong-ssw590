@@ -20,9 +20,8 @@ def get_connection():
 def create_tables():
     ensure_database_folder_exists()
 
-    schema_file = open(SCHEMA_FILE_PATH, "r", encoding="utf-8")
-    schema_sql = schema_file.read()
-    schema_file.close()
+    with open(SCHEMA_FILE_PATH, "r", encoding="utf-8") as schema_file:
+        schema_sql = schema_file.read()
 
     connection = get_connection()
     connection.executescript(schema_sql)
@@ -33,32 +32,13 @@ def create_tables():
 def add_endpoint(name, url):
     connection = get_connection()
 
-    if url is not None and name is not None:
-        row = connection.execute(
-            """
-            INSERT INTO endpoints (name, url)
-            VALUES (?, ?)
-            """,
-            (name, url),
-        )
-
-    elif url is None:
-        row = connection.execute(
-            """
-            INSERT INTO endpoints (url)
-            VALUES (?)
-            """,
-            (url),
-        )
-
-    else:
-        row = connection.execute(
-            """
-            INSERT INTO endpoints (name)
-            VALUES (?)
-            """,
-            (name),
-        )
+    row = connection.execute(
+        """
+        INSERT INTO endpoints (name, url)
+        VALUES (?, ?)
+        """,
+        (name, url),
+    )
 
     connection.commit()
 
@@ -73,9 +53,14 @@ def get_all_endpoints():
     connection = get_connection()
 
     rows = connection.execute("""
-        SELECT *
-        FROM endpoints
-        ORDER BY id ASC
+        SELECT
+            e.*,
+            MAX(c.checked_at) AS last_checked,
+            ROUND(100.0 * SUM(c.success) / COUNT(c.id), 1) AS uptime_pct
+        FROM endpoints e
+        LEFT JOIN checks c ON c.endpoint_id = e.id
+        GROUP BY e.id
+        ORDER BY e.id ASC
         """).fetchall()
 
     connection.close()
@@ -144,28 +129,19 @@ def add_check(
     connection.close()
 
 
-def get_recent_checks(limit=50):
+def get_status_code_counts(endpoint_id):
     connection = get_connection()
 
     rows = connection.execute(
         """
         SELECT
-            checks.id,
-            checks.endpoint_id,
-            checks.checked_at,
-            checks.status_code,
-            checks.response_time_ms,
-            checks.success,
-            checks.error_message,
-            endpoints.name AS endpoint_name,
-            endpoints.url AS endpoint_url
+            COALESCE(status_code, 'Unknown') AS status_code,
+            COUNT(*) AS count
         FROM checks
-        JOIN endpoints
-            ON checks.endpoint_id = endpoints.id
-        ORDER BY checks.id DESC
-        LIMIT ?
+        WHERE endpoint_id = ?
+        GROUP BY status_code
         """,
-        (limit,),
+        (endpoint_id,),
     ).fetchall()
 
     connection.close()
@@ -190,44 +166,36 @@ def get_checks_for_endpoint(endpoint_id, limit=100):
     return rows
 
 
-def update_endpoint(endpoint_id, name, url):
+def update_endpoint(endpoint_id, name=None, url=None, is_active=None):
+    fields = []
+    values = []
+
+    if name is not None:
+        fields.append("name = ?")
+        values.append(name)
+
+    if url is not None:
+        fields.append("url = ?")
+        values.append(url)
+
+    if is_active is not None:
+        fields.append("is_active = ?")
+        values.append(is_active)
+
+    if not fields:
+        return get_endpoint_by_id(endpoint_id)
+
+    values.append(endpoint_id)
+
     connection = get_connection()
-
-    if name is not None and url is not None:
-        connection.execute(
-            """
-            UPDATE endpoints
-            SET name = ?, url = ?
-            WHERE id = ?
-            """,
-            (name, url, endpoint_id),
-        )
-
-    elif name is None:
-        connection.execute(
-            """
-            UPDATE endpoints
-            SET url = ?
-            WHERE id = ?
-            """,
-            (url, endpoint_id),
-        )
-
-    else:
-        connection.execute(
-            """
-            UPDATE endpoints
-            SET name = ?
-            WHERE id = ?
-            """,
-            (name, endpoint_id),
-        )
-
+    connection.execute(
+        f"UPDATE endpoints SET {', '.join(fields)} WHERE id = ?",
+        values,
+    )
     connection.commit()
     connection.close()
 
-    updated_endpoint = get_endpoint_by_id(endpoint_id)
-    return updated_endpoint
+    return get_endpoint_by_id(endpoint_id)
 
 
 def delete_endpoint(endpoint_id):
@@ -267,10 +235,41 @@ def delete_endpoint(endpoint_id):
     return (is_deleted, endpoint)
 
 
-def avg_check_response_time(endpoint_id):
+def get_config():
     connection = get_connection()
 
-    avg = connection.execute(
+    row = connection.execute("""
+        SELECT check_interval_seconds
+        FROM config
+        WHERE id = 1
+        """).fetchone()
+
+    connection.close()
+    return row
+
+
+def update_config(check_interval_seconds):
+    connection = get_connection()
+
+    connection.execute(
+        """
+        UPDATE config
+        SET check_interval_seconds = ?
+        WHERE id = 1
+        """,
+        (check_interval_seconds,),
+    )
+
+    connection.commit()
+    connection.close()
+
+    return get_config()
+
+
+def get_endpoint_stats(endpoint_id):
+    connection = get_connection()
+
+    stats = connection.execute(
         """
         SELECT
             AVG(c.response_time_ms) AS avg_response_time,
@@ -285,7 +284,6 @@ def avg_check_response_time(endpoint_id):
         (endpoint_id,),
     ).fetchone()
 
-    connection.commit()
     connection.close()
 
-    return avg
+    return stats
