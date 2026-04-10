@@ -1,0 +1,36 @@
+<dialog
+  id="delete-dialog"
+  class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96"
+>
+  <div>
+    <h1 class="text-3xl font-bold text-black dark:text-white mb-3">
+      Delete Endpoint
+    </h1>
+
+    <p id="delete-endpoint-id" class="hidden"></p>
+
+    <div class="mb-4">
+      <p id="delete-warning" class="text-black dark:text-white"></p>
+      <p class="font-bold text-black dark:text-white">This action is permanent.</p>
+    </div>
+
+
+    <button
+      id="deleteCancelButton"
+      class="border border-black dark:border-white text-black dark:text-white px-2 py-1 rounded"
+    >
+      Cancel
+    </button>
+    <button
+      id="deleteButton"
+      class="ml-2 border border-red-600 dark:border-red-400 text-red-600 dark:text-red-400 font-bold px-2 py-1 rounded"
+    >
+      Delete
+    </button>
+
+    <p
+      id="deleteError"
+      class="mt-2 text-red-700 dark:text-red-500 font-bold pt-2"
+    ></p>
+  </div>
+</dialog>

@@ -1,12 +1,12 @@
 let currentEditId = null;
 
-const error = document.getElementById("editError");
-error.style.display = "none";
+const editError = document.getElementById("editError");
+editError.style.display = "none";
 
-const cancelButton = document.getElementById("editCancelButton");
+const editCancelButton = document.getElementById("editeditCancelButton");
 
-if (cancelButton) {
-  cancelButton.addEventListener("click", () => {
+if (editCancelButton) {
+  editCancelButton.addEventListener("click", () => {
     const dialog = document.getElementById("edit-dialog");
     if (dialog) {
       dialog.close();
@@ -31,11 +31,11 @@ async function showEditModal(id) {
     if (endpoint.url) endpointUrl.value = endpoint.url;
     endpointActive.checked = endpoint.is_active === 1;
 
-    error.style.display = "none";
+    editError.style.display = "none";
     if (dialog) dialog.showModal();
   } catch (err) {
-    error.style.display = "block";
-    error.textContent = err;
+    editError.style.display = "block";
+    editError.textContent = err;
   }
 }
 
@@ -71,10 +71,10 @@ if (form) {
         body: JSON.stringify(endpointData),
       });
 
-      window.location.href = "/";
+      window.location.reload();
     } catch (err) {
-      error.style.display = "block";
-      error.textContent = err;
+      editError.style.display = "block";
+      editError.textContent = err;
     }
   });
 }

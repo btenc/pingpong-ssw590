@@ -7,13 +7,23 @@
     <title>{{ endpoint.name }}</title>
   </head>
   <body class="bg-white dark:bg-black">
+    {% include "edit-endpoint.html" %} {% include "delete-endpoint.html" %}
     <div class="p-4">
       <a href="/">← Back</a>
 
       <h1 class="text-3xl font-bold text-black dark:text-white mt-2 mb-1">
         {{ endpoint.name }}
       </h1>
-      <a href="{{ endpoint.url }}" target="_blank">{{ endpoint.url }}</a>
+      <div class="flex items-center gap-2 mt-2 mb-4">
+        <a class="mr-3" href="{{ endpoint.url }}" target="_blank">{{ endpoint.url }}</a>
+        {% if endpoint.is_active %}
+        <span class="status-dot active"></span>
+        <span class="text-black dark:text-white">Active</span>
+        {% else %}
+        <span class="status-dot inactive"></span>
+        <span class="text-black dark:text-white">Inactive</span>
+        {% endif %}
+      </div>
       <div class="flex items-center gap-2 mt-2 mb-4">
         <button
           id="runCheckButton"
@@ -22,15 +32,18 @@
         >
           Run Check Now
         </button>
-      </div>
-      <div class="flex items-center gap-2 mt-2 mb-4">
-        {% if endpoint.is_active %}
-        <span class="status-dot active"></span>
-        <span class="text-black dark:text-white">Active</span>
-        {% else %}
-        <span class="status-dot inactive"></span>
-        <span class="text-black dark:text-white">Inactive</span>
-        {% endif %}
+        <button
+          class="border border-black dark:border-white text-black dark:text-white px-2 py-1 rounded"
+          onclick="showEditModal({{ endpoint.id }})"
+        >
+          Edit
+        </button>
+        <button
+          class="border border-red-600 dark:border-red-400 text-red-600 dark:text-red-400 px-2 py-1 rounded"
+          onclick='showDeleteModal({{ endpoint.id }}, "{{ endpoint.name }}")'
+        >
+          Delete
+        </button>
       </div>
 
       <div class="flex gap-8 mb-6">
@@ -110,9 +123,7 @@
         <table id="checksTable" class="table-auto border-collapse">
           <thead>
             <tr>
-              <th
-                class="text-black dark:text-white p-2 text-left"
-              >
+              <th class="text-black dark:text-white p-2 text-left">
                 Checked At
               </th>
               <th
@@ -134,10 +145,11 @@
           </thead>
           <tbody>
             {% for check in checks %}
-            <tr data-success="{{ check.success }}" class="border-t border-black dark:border-white">
-              <td
-                class="text-black dark:text-white p-2"
-              >
+            <tr
+              data-success="{{ check.success }}"
+              class="border-t border-black dark:border-white"
+            >
+              <td class="text-black dark:text-white p-2">
                 {{ check.checked_at }}
               </td>
               <td
@@ -171,5 +183,7 @@
     <script src="../static/js/helpers.js"></script>
     <script src="../static/js/code-chart.js"></script>
     <script src="../static/js/endpoint.js"></script>
+    <script src="../static/js/edit-endpoint.js"></script>
+    <script src="../static/js/delete-endpoint.js"></script>
   </body>
 </html>

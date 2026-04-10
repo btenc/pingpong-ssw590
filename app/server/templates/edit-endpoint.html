@@ -3,7 +3,9 @@
   class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96"
 >
   <div>
-    <h1 class="text-3xl font-bold text-black dark:text-white mb-3">Edit Endpoint</h1>
+    <h1 class="text-3xl font-bold text-black dark:text-white mb-3">
+      Edit Endpoint
+    </h1>
     <form id="editEndpointForm">
       <div>
         <input type="hidden" id="editEndpointId" name="editEndpointId" />
@@ -42,14 +44,12 @@
       </div>
 
       <div class="pb-3">
-        <label class="font-medium text-sm text-gray-800 dark:text-gray-200 block">
+        <label
+          class="font-medium text-sm text-gray-800 dark:text-gray-200 block"
+        >
           Active
+          <input class="ml-1" id="editEndpointActive" type="checkbox" class="mt-1" />
         </label>
-        <input
-          id="editEndpointActive"
-          type="checkbox"
-          class="mt-1"
-        />
       </div>
 
       <button
