@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 from app.server.routes.web import web_bp
 from app.server.routes.api import api_bp
 
