@@ -30,7 +30,7 @@ if (addForm) {
         endpointUrl: addEndpointUrl.value,
       };
 
-      await fetchData("http://127.0.0.1:5000/api/endpoints", {
+      await fetchData("/api/endpoints", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
