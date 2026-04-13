@@ -52,8 +52,7 @@ def add_endpoint(name, url):
 def get_all_endpoints():
     connection = get_connection()
 
-    rows = connection.execute(
-        """
+    rows = connection.execute("""
         SELECT
             e.*,
             MAX(c.checked_at) AS last_checked,
@@ -62,8 +61,7 @@ def get_all_endpoints():
         LEFT JOIN checks c ON c.endpoint_id = e.id
         GROUP BY e.id
         ORDER BY e.id ASC
-        """
-    ).fetchall()
+        """).fetchall()
 
     connection.close()
 
@@ -73,14 +71,12 @@ def get_all_endpoints():
 def get_active_endpoints():
     connection = get_connection()
 
-    rows = connection.execute(
-        """
+    rows = connection.execute("""
         SELECT *
         FROM endpoints
         WHERE is_active = 1
         ORDER BY id ASC
-        """
-    ).fetchall()
+        """).fetchall()
 
     connection.close()
     return rows
@@ -242,13 +238,11 @@ def delete_endpoint(endpoint_id):
 def get_config():
     connection = get_connection()
 
-    row = connection.execute(
-        """
+    row = connection.execute("""
         SELECT check_interval_seconds
         FROM config
         WHERE id = 1
-        """
-    ).fetchone()
+        """).fetchone()
 
     connection.close()
     return row

@@ -7,8 +7,6 @@ pkgs.mkShell {
     pkgs.python312Packages.virtualenv
     pkgs.nodejs_22
     pkgs.sqlite
-    pkgs.ruff
-    pkgs.black
   ];
 
   shellHook = ''
@@ -17,5 +15,6 @@ pkgs.mkShell {
     fi
     source .venv/bin/activate
     pip install -q -r requirements.txt
+    pip install -q -r requirements-dev.txt
   '';
 }
