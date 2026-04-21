@@ -5,3 +5,5 @@ db/pingpong.db
 node_modules/
 package-lock.json
 .vscode/
+.DS_Store
+.ruff_cache/

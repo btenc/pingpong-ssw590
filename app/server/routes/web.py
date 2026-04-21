@@ -19,11 +19,19 @@ def index():
         endpoints = []
 
     endpoints = [
-        {**dict(e), "last_checked": format_timestamp(e["last_checked"])}
+        {
+            **dict(e),
+            "last_checked": (
+                "Scheduled"
+                if e["last_checked"] is None
+                else format_timestamp(e["last_checked"])
+            ),
+        }
         for e in endpoints
     ]
+    is_empty = len(endpoints) == 0
 
-    return render_template("index.html", endpoints=endpoints)
+    return render_template("index.html", endpoints=endpoints, is_empty=is_empty)
 
 
 @web_bp.route("/endpoint/<int:id>")
@@ -41,10 +49,13 @@ def endpoint_id(id):
     }
     aggregate = get_endpoint_stats(id)
 
+    is_empty = len(checks) == 0
+
     return render_template(
         "endpoint.html",
         endpoint=endpoint,
         checks=checks,
         code_data=code_data,
         aggregate=aggregate,
+        is_empty=is_empty,
     )

@@ -11,9 +11,9 @@ def get_current_timestamp():
 
 def status_code_means_success(status_code):
     if 200 <= status_code < 400:
-        return 1
+        return True
     else:
-        return 0
+        return False
 
 
 def check_one_endpoint(endpoint_row):
@@ -71,4 +71,5 @@ def check_all_active_endpoints():
     for endpoint_row in active_endpoints:
         result = check_one_endpoint(endpoint_row)
         results.append(result)
+
     return results

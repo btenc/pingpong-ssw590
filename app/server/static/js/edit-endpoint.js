@@ -3,7 +3,7 @@ let currentEditId = null;
 const editError = document.getElementById("editError");
 editError.style.display = "none";
 
-const editCancelButton = document.getElementById("editeditCancelButton");
+const editCancelButton = document.getElementById("editCancelButton");
 
 if (editCancelButton) {
   editCancelButton.addEventListener("click", () => {
@@ -29,7 +29,7 @@ async function showEditModal(id) {
 
     if (endpoint.name) endpointName.value = endpoint.name;
     if (endpoint.url) endpointUrl.value = endpoint.url;
-    endpointActive.checked = endpoint.is_active === 1;
+    endpointActive.checked = endpoint.is_active;
 
     editError.style.display = "none";
     if (dialog) dialog.showModal();

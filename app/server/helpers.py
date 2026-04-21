@@ -1,12 +1,11 @@
 from zoneinfo import ZoneInfo
-from dateutil import parser
 
 
 def process_checks(checks):
     processed = []
 
     for check in checks:
-        date_utc = parser.parse(check["checked_at"])
+        date_utc = check["checked_at"]
         date_et = date_utc.astimezone(ZoneInfo("America/New_York"))
         formatted = date_et.strftime("%B %d, %Y at %I:%M %p")
 
@@ -25,9 +24,6 @@ def process_checks(checks):
     return processed
 
 
-def format_timestamp(iso_string):
-    if iso_string is None:
-        return None
-    date_utc = parser.parse(iso_string)
-    date_et = date_utc.astimezone(ZoneInfo("America/New_York"))
+def format_timestamp(timestamp):
+    date_et = timestamp.astimezone(ZoneInfo("America/New_York"))
     return date_et.strftime("%B %d, %Y at %I:%M %p")

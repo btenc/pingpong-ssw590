@@ -105,7 +105,6 @@ def patch_endpoint(id):
     if is_active is not None:
         if not isinstance(is_active, bool):
             return jsonify({"error": "isActive must be a boolean."}), 400
-        is_active = 1 if is_active else 0
 
     try:
         patched_endpoint = dict(database.update_endpoint(id, name, url, is_active))

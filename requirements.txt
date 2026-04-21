@@ -2,3 +2,5 @@ Flask
 requests
 python-dateutil
 bleach
+psycopg2-binary
+python-dotenv

@@ -4,7 +4,7 @@ A simple endpoint monitoring tool. Add URLs and PingPong will automatically ping
 
 ## Stack
 - Python / Flask - web server and API
-- SQLite - database
+- PostgreSQL - database
 - Tailwind CSS - styling
 - ApexCharts - status code pie chart
 - requests - HTTP checks

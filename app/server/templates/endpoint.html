@@ -51,7 +51,11 @@
           <h2 class="text-2xl font-bold text-black dark:text-white mb-2">
             Status Codes
           </h2>
+          {% if is_empty %}
+          <p class="text-black dark:text-white p-2 inline-block rounded-lg border border-black dark:border-white">Run a check now or wait for one to happen to view your status codes.</p>
+          {% else %}
           <div id="codes-chart"></div>
+          {% endif %}
         </div>
         <div class="w-2/3">
           <h2 class="text-2xl font-bold text-black dark:text-white mb-2">
@@ -120,6 +124,9 @@
       <div
         class="inline-block rounded-lg border border-black dark:border-white"
       >
+        {% if is_empty %}
+        <p class="text-black dark:text-white p-2">Run a check now or wait for one to happen to see your recent checks.</p>
+        {% else %}
         <table id="checksTable" class="table-auto border-collapse">
           <thead>
             <tr>
@@ -174,6 +181,7 @@
             {% endfor %}
           </tbody>
         </table>
+        {% endif %}
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

@@ -31,6 +31,9 @@
         </button>
       </div>
       <div class="inline-block rounded-lg border border-black dark:border-white">
+        {% if is_empty %}
+        <p class="text-black dark:text-white p-2">Please add an endpoint first to see it listed here.</p>
+        {% else %}
         <table class="table-auto border-collapse">
           <thead>
             <tr>
@@ -99,6 +102,7 @@
             {% endfor %}
           </tbody>
         </table>
+        {% endif %}
       </div>
     </div>
     <script src="../static/js/helpers.js"></script>
