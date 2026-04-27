@@ -7,6 +7,7 @@ pkgs.mkShell {
     pkgs.python312Packages.virtualenv
     pkgs.nodejs_22
     pkgs.sqlite
+    pkgs.podman-compose
   ];
 
   shellHook = ''

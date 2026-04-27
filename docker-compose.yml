@@ -2,9 +2,33 @@ services:
   pingpong:
     build: .
     ports:
-      - "5000:5000"
+      - "5050:5000"
     environment:
       - HOST=0.0.0.0
-    volumes:
-      - ./db:/app/db
+      - DB_NAME=pingpong
+      - DB_USER=pingpong
+      - DB_PASSWORD=pingpong
+      - DB_HOST=postgres
+      - DB_PORT=5432
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
+
+  postgres:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=pingpong
+      - POSTGRES_USER=pingpong
+      - POSTGRES_PASSWORD=pingpong
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pingpong -d pingpong"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
