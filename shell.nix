@@ -8,6 +8,7 @@ pkgs.mkShell {
     pkgs.nodejs_22
     pkgs.sqlite
     pkgs.podman-compose
+    pkgs.terraform
   ];
 
   shellHook = ''
