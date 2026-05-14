@@ -9,6 +9,7 @@ pkgs.mkShell {
     pkgs.sqlite
     pkgs.podman-compose
     pkgs.terraform
+    pkgs.awscli2
   ];
 
   shellHook = ''
